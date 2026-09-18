@@ -320,7 +320,6 @@
     width: 100%;
 }
 
-/* Button states */
 .btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -570,8 +569,6 @@
     line-height: var(--line-height-relaxed);
 }
 
-/* Continue in next comment due to length... */
-
 /* ========================================
    PROJECT CARDS - Premium portfolio presentation
    ======================================== */
@@ -742,4 +739,633 @@
     flex-wrap: wrap;
 }
 
-/* Continue with remaining components... */
+/* ========================================
+   PRICING CARDS - Premium presentation
+   ======================================== */
+
+.pricing-card {
+    background: linear-gradient(135deg, #15111D 0%, #1A0D2B 100%);
+    border: 1px solid rgba(124, 58, 237, 0.2);
+    border-radius: var(--radius-base);
+    padding: var(--space-2xl);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pricing-card:hover {
+    border-color: var(--accent-primary);
+    transform: translateY(-8px);
+    box-shadow: 0 16px 48px rgba(124, 58, 237, 0.25);
+}
+
+.pricing-card--featured {
+    border-color: var(--accent-primary);
+    background: linear-gradient(135deg, #1A0D2B 0%, var(--color-dark-purple) 100%);
+    box-shadow: 0 8px 32px rgba(124, 58, 237, 0.2);
+}
+
+.pricing-card--featured::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 50% 0%, rgba(124, 58, 237, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+    border-radius: var(--radius-base);
+}
+
+.pricing-badge {
+    position: absolute;
+    top: var(--space-lg);
+    right: var(--space-lg);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: 0.1em;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(135deg, var(--color-purple-600), var(--color-purple-500));
+    color: var(--color-white);
+    border-radius: var(--radius-full);
+    box-shadow: 0 4px 16px rgba(124, 58, 237, 0.4);
+}
+
+.pricing-header {
+    margin-bottom: var(--space-xl);
+    position: relative;
+    z-index: 1;
+}
+
+.pricing-name {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent-primary);
+    margin-bottom: var(--space-base);
+}
+
+.pricing-price {
+    display: flex;
+    align-items: baseline;
+    gap: 0.25rem;
+    margin-bottom: var(--space-base);
+}
+
+.price-currency {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--text-primary);
+}
+
+.price-amount {
+    font-size: var(--font-size-6xl);
+    font-weight: var(--font-weight-black);
+    line-height: 1;
+    color: var(--text-primary);
+    font-variant-numeric: tabular-nums;
+}
+
+.pricing-description {
+    font-size: var(--font-size-sm);
+    color: #C1C1C1;
+    line-height: var(--line-height-relaxed);
+}
+
+.pricing-features {
+    flex: 1;
+    margin-bottom: var(--space-xl);
+    position: relative;
+    z-index: 1;
+}
+
+.pricing-features ul {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.pricing-features li {
+    font-size: var(--font-size-sm);
+    color: #C1C1C1;
+    padding-left: var(--space-lg);
+    position: relative;
+    line-height: var(--line-height-relaxed);
+}
+
+.pricing-features li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--accent-primary);
+    font-weight: var(--font-weight-bold);
+}
+
+.pricing-cta {
+    position: relative;
+    z-index: 1;
+}
+
+/* ========================================
+   CONTACT FORM - Premium design
+   ======================================== */
+
+.contact-form {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-lg);
+    margin-bottom: var(--space-lg);
+}
+
+.form-group {
+    margin-bottom: var(--space-lg);
+    position: relative;
+}
+
+.form-label {
+    display: block;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: var(--space-sm);
+    color: var(--text-primary);
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    background: rgba(15, 10, 22, 0.7);
+    border: 1.5px solid rgba(124, 58, 237, 0.3);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    font-size: var(--font-size-base);
+    transition: all var(--transition-fast);
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+    box-shadow: 
+        0 0 0 3px rgba(124, 58, 237, 0.15),
+        0 0 24px rgba(124, 58, 237, 0.2);
+    background: rgba(15, 10, 22, 0.9);
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+    color: rgba(161, 161, 170, 0.5);
+}
+
+.form-input.error,
+.form-select.error,
+.form-textarea.error {
+    border-color: #EF4444;
+}
+
+.form-error {
+    display: none;
+    font-size: var(--font-size-xs);
+    color: #EF4444;
+    margin-top: var(--space-xs);
+}
+
+.form-group.error .form-error {
+    display: block;
+}
+
+.form-group--checkbox {
+    margin-top: var(--space-base);
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-sm);
+    cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.checkbox-custom {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(124, 58, 237, 0.5);
+    border-radius: var(--radius-sm);
+    position: relative;
+    flex-shrink: 0;
+    margin-top: 2px;
+    transition: all var(--transition-fast);
+    background: rgba(15, 10, 22, 0.7);
+}
+
+.checkbox-label input[type="checkbox"]:checked + .checkbox-custom {
+    background: linear-gradient(135deg, var(--color-purple-600), var(--color-purple-500));
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 16px rgba(124, 58, 237, 0.5);
+}
+
+.checkbox-label input[type="checkbox"]:checked + .checkbox-custom::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--color-white);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+}
+
+.checkbox-text {
+    font-size: var(--font-size-sm);
+    color: #C1C1C1;
+    line-height: var(--line-height-relaxed);
+}
+
+.checkbox-text a {
+    color: var(--accent-primary);
+    text-decoration: underline;
+}
+
+.checkbox-text a:hover {
+    color: var(--accent-secondary);
+}
+
+.btn-loading {
+    display: none;
+}
+
+.btn.loading .btn-text {
+    display: none;
+}
+
+.btn.loading .btn-loading {
+    display: inline;
+}
+
+.form-success {
+    display: none;
+    text-align: center;
+    padding: var(--space-3xl) 0;
+}
+
+.form-success svg {
+    margin: 0 auto var(--space-lg);
+    color: var(--accent-primary);
+}
+
+.form-success h3 {
+    font-size: var(--font-size-2xl);
+    margin-bottom: var(--space-base);
+}
+
+.form-success.active {
+    display: block;
+}
+
+.contact-form.success .form-row,
+.contact-form.success .form-group,
+.contact-form.success .btn {
+    display: none;
+}
+
+/* ========================================
+   FILTER BUTTONS
+   ======================================== */
+
+.template-filters,
+.work-filters {
+    display: flex;
+    gap: var(--space-base);
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.875rem 1.75rem;
+    background: rgba(15, 10, 22, 0.6);
+    border: 1.5px solid rgba(124, 58, 237, 0.3);
+    border-radius: var(--radius-full);
+    color: #C1C1C1;
+    transition: all var(--transition-fast);
+    cursor: pointer;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+    background: linear-gradient(135deg, var(--color-purple-600), var(--color-purple-500));
+    border-color: var(--accent-primary);
+    color: var(--color-white);
+    box-shadow: 0 4px 16px rgba(124, 58, 237, 0.4);
+}
+
+/* ========================================
+   CTA SECTIONS
+   ======================================== */
+
+.cta-content {
+    position: relative;
+    z-index: 1;
+}
+
+.cta-title {
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: var(--font-weight-black);
+    line-height: var(--line-height-tight);
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    margin-bottom: var(--space-base);
+}
+
+.cta-text {
+    font-size: var(--font-size-xl);
+    color: #C1C1C1;
+    margin-bottom: var(--space-2xl);
+}
+
+/* ========================================
+   GRIDS
+   ======================================== */
+
+.work-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3xl);
+}
+
+.templates-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-2xl);
+}
+
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-2xl);
+}
+
+.about-intro-grid,
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3xl);
+    align-items: center;
+}
+
+.split-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3xl);
+}
+
+.beliefs-grid,
+.features-grid,
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-2xl);
+}
+
+.faq-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-2xl);
+}
+
+/* ========================================
+   CONTACT INFO
+   ======================================== */
+
+.contact-info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-2xl);
+    margin-bottom: var(--space-3xl);
+}
+
+.contact-info-item {
+    padding: var(--space-xl);
+    background: rgba(124, 58, 237, 0.05);
+    border: 1px solid rgba(124, 58, 237, 0.2);
+    border-radius: var(--radius-base);
+    transition: all var(--transition-base);
+}
+
+.contact-info-item:hover {
+    background: rgba(124, 58, 237, 0.08);
+    border-color: rgba(124, 58, 237, 0.3);
+    box-shadow: 0 4px 16px rgba(124, 58, 237, 0.15);
+}
+
+.contact-info-title {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent-primary);
+    margin-bottom: var(--space-sm);
+}
+
+.contact-info-link {
+    font-size: var(--font-size-lg);
+    color: var(--text-primary);
+    font-weight: var(--font-weight-semibold);
+    transition: color var(--transition-fast);
+    display: inline-block;
+}
+
+.contact-info-link:hover {
+    color: var(--accent-primary);
+}
+
+.contact-info-text {
+    font-size: var(--font-size-base);
+    color: #C1C1C1;
+}
+
+/* ========================================
+   SERVICE DETAIL
+   ======================================== */
+
+.service-detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: var(--space-3xl);
+    margin-bottom: var(--space-4xl);
+}
+
+.service-detail-info {
+    position: sticky;
+    top: calc(var(--nav-height) + var(--space-2xl));
+    align-self: start;
+}
+
+.service-detail-number {
+    font-size: var(--font-size-4xl);
+    font-weight: var(--font-weight-black);
+    color: var(--accent-primary);
+    margin-bottom: var(--space-base);
+    text-shadow: 0 0 24px rgba(124, 58, 237, 0.3);
+    font-variant-numeric: tabular-nums;
+}
+
+.service-detail-title {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-black);
+    line-height: var(--line-height-tight);
+}
+
+.service-detail-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-base);
+}
+
+.service-features {
+    list-style: none;
+    margin-top: var(--space-lg);
+}
+
+.service-features li {
+    padding: var(--space-sm) 0 var(--space-sm) var(--space-lg);
+    position: relative;
+    color: #C1C1C1;
+    line-height: var(--line-height-relaxed);
+}
+
+.service-features li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent-primary);
+    font-weight: var(--font-weight-bold);
+}
+
+/* ========================================
+   ADDITIONAL COMPONENTS
+   ======================================== */
+
+.service-addon {
+    padding: var(--space-xl);
+    background: rgba(124, 58, 237, 0.05);
+    border: 1px solid rgba(124, 58, 237, 0.2);
+    border-radius: var(--radius-base);
+    transition: all var(--transition-base);
+}
+
+.service-addon:hover {
+    border-color: var(--accent-primary);
+    background: rgba(124, 58, 237, 0.08);
+    box-shadow: 0 4px 20px rgba(124, 58, 237, 0.2);
+}
+
+.addon-title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--space-xs);
+}
+
+.addon-price {
+    font-size: var(--font-size-base);
+    color: var(--accent-primary);
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--space-sm);
+}
+
+.addon-description {
+    font-size: var(--font-size-sm);
+    color: #C1C1C1;
+    line-height: var(--line-height-relaxed);
+}
+
+.faq-item {
+    padding: var(--space-xl);
+    background: rgba(124, 58, 237, 0.03);
+    border: 1px solid rgba(124, 58, 237, 0.15);
+    border-radius: var(--radius-base);
+}
+
+.faq-question {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--space-sm);
+    color: var(--text-primary);
+}
+
+.faq-answer {
+    font-size: var(--font-size-sm);
+    color: #C1C1C1;
+    line-height: var(--line-height-relaxed);
+}
+
+.belief-item,
+.feature-card,
+.work-step {
+    padding: var(--space-xl);
+    background: rgba(124, 58, 237, 0.03);
+    border: 1px solid rgba(124, 58, 237, 0.15);
+    border-radius: var(--radius-base);
+    transition: all var(--transition-base);
+}
+
+.belief-item:hover,
+.feature-card:hover,
+.work-step:hover {
+    background: rgba(124, 58, 237, 0.05);
+    border-color: rgba(124, 58, 237, 0.25);
+}
+
+.belief-title,
+.feature-title,
+.work-step-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--space-sm);
+    color: var(--text-primary);
+}
+
+.feature-icon {
+    width: 48px;
+    height: 48px;
+    color: var(--accent-primary);
+    margin-bottom: var(--space-base);
+}
+
+.feature-text {
+    font-size: var(--font-size-sm);
+    color: #C1C1C1;
+    line-height: var(--line-height-relaxed);
+}
+
+.work-step-number {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-black);
+    color: var(--accent-primary);
+    margin-bottom: var(--space-sm);
+    font-variant-numeric: tabular-nums;
+}
+
+.section-cta {
+    text-align: center;
+    margin-top: var(--space-3xl);
+}
