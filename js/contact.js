@@ -1,11 +1,11 @@
-// Contact Form Functionality
+// Contact Form Functionality - HAVEN Premium Digital Agency
 
 function initContactForm() {
     const contactForm = document.getElementById('contactForm');
     
     if (!contactForm) return;
     
-    // Form validation
+    // Form validation and submission
     contactForm.addEventListener('submit', handleFormSubmit);
     
     // Real-time validation
@@ -23,7 +23,15 @@ function initContactForm() {
     const emailInput = contactForm.querySelector('#email');
     if (emailInput) {
         emailInput.addEventListener('blur', () => validateEmail(emailInput));
+        emailInput.addEventListener('input', () => {
+            if (emailInput.classList.contains('error')) {
+                validateEmail(emailInput);
+            }
+        });
     }
+    
+    // Auto-resize textareas
+    initAutoResizeTextareas();
 }
 
 // Handle form submission
@@ -34,11 +42,30 @@ function handleFormSubmit(e) {
     const isValid = validateForm(form);
     
     if (!isValid) {
-        // Scroll to first error
+        // Scroll to first error with smooth animation
         const firstError = form.querySelector('.form-group.error');
-        if (firstError) {
+        if (firstError && window.havenUtils) {
             window.havenUtils.scrollToElement(firstError, 100);
         }
+        
+        // Shake animation for submit button
+        const submitButton = form.querySelector('button[type="submit"]');
+        if (submitButton && typeof gsap !== 'undefined') {
+            gsap.fromTo(submitButton,
+                { x: -10 },
+                { 
+                    x: 10, 
+                    duration: 0.1, 
+                    repeat: 3, 
+                    yoyo: true,
+                    ease: 'power1.inOut',
+                    onComplete: () => {
+                        gsap.set(submitButton, { x: 0 });
+                    }
+                }
+            );
+        }
+        
         return;
     }
     
@@ -51,7 +78,7 @@ function handleFormSubmit(e) {
     const formData = new FormData(form);
     const data = Object.fromEntries(formData);
     
-    // Simulate form submission (replace with actual submission)
+    // Submit form (mailto fallback for static site)
     submitForm(data, form, submitButton);
 }
 
@@ -67,7 +94,7 @@ function validateForm(form) {
         }
     });
     
-    // Validate email
+    // Validate email specifically
     const emailInput = form.querySelector('#email');
     if (emailInput && !validateEmail(emailInput)) {
         isValid = false;
@@ -81,11 +108,13 @@ function validateField(field) {
     const formGroup = field.closest('.form-group');
     const value = field.value.trim();
     
+    // Check if required field is empty
     if (field.hasAttribute('required') && !value) {
         showError(formGroup, field);
         return false;
     }
     
+    // Check checkbox
     if (field.type === 'checkbox' && field.hasAttribute('required') && !field.checked) {
         showError(formGroup, field);
         return false;
@@ -115,10 +144,19 @@ function validateEmail(emailInput) {
     return true;
 }
 
-// Show error state
+// Show error state with animation
 function showError(formGroup, field) {
     formGroup.classList.add('error');
     field.classList.add('error');
+    
+    // Animate error message
+    const errorMsg = formGroup.querySelector('.form-error');
+    if (errorMsg && typeof gsap !== 'undefined') {
+        gsap.fromTo(errorMsg,
+            { opacity: 0, y: -10 },
+            { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' }
+        );
+    }
 }
 
 // Hide error state
@@ -127,35 +165,52 @@ function hideError(formGroup, field) {
     field.classList.remove('error');
 }
 
-// Submit form data
+// Submit form data (mailto fallback for static site)
 function submitForm(data, form, submitButton) {
-    // Since this is a static site, we'll use mailto as fallback
-    // In production, integrate with Formspree, EmailJS, or custom backend
+    // Since this is a static site, we use mailto as a fallback
+    // In production, you would integrate with:
+    // - Formspree (https://formspree.io)
+    // - EmailJS (https://www.emailjs.com)
+    // - Custom backend API
+    // - Netlify Forms
+    // - Vercel Forms
     
-    // Simulate API call delay
+    // Simulate processing delay
     setTimeout(() => {
         // Create mailto link with form data
-        const subject = `New Project Inquiry from ${data.fullName}`;
-        const body = createEmailBody(data);
-        const mailtoLink = `mailto:hello.havenweb@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        const subject = encodeURIComponent(`New Project Inquiry from ${data.fullName}`);
+        const body = encodeURIComponent(createEmailBody(data));
+        const mailtoLink = `mailto:hello.havenweb@gmail.com?subject=${subject}&body=${body}`;
         
-        // Open mailto
+        // Open mailto (this will open the user's email client)
         window.location.href = mailtoLink;
         
         // Show success message
-        showSuccessMessage(form, submitButton);
+        setTimeout(() => {
+            showSuccessMessage(form, submitButton);
+        }, 500);
+        
     }, 1500);
 }
 
 // Create email body from form data
 function createEmailBody(data) {
-    let body = `New project inquiry from ${data.fullName}\n\n`;
+    let body = `NEW PROJECT INQUIRY\n\n`;
     
+    body += `━━━━━━━━━━━━━━━━━━━━━━\n`;
+    body += `CONTACT INFORMATION\n`;
+    body += `━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+    
+    body += `Name: ${data.fullName}\n`;
     body += `Email: ${data.email}\n`;
     
     if (data.business) {
         body += `Business/Brand: ${data.business}\n`;
     }
+    
+    body += `\n━━━━━━━━━━━━━━━━━━━━━━\n`;
+    body += `PROJECT DETAILS\n`;
+    body += `━━━━━━━━━━━━━━━━━━━━━━\n\n`;
     
     if (data.template) {
         body += `Template: ${data.template}\n`;
@@ -178,21 +233,31 @@ function createEmailBody(data) {
     }
     
     if (data.description) {
-        body += `\nProject Description:\n${data.description}\n`;
+        body += `\n━━━━━━━━━━━━━━━━━━━━━━\n`;
+        body += `PROJECT DESCRIPTION\n`;
+        body += `━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+        body += `${data.description}\n`;
     }
     
+    body += `\n━━━━━━━━━━━━━━━━━━━━━━\n`;
+    body += `TIMELINE & BUDGET\n`;
+    body += `━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+    
     if (data.timeline) {
-        body += `\nDesired Timeline: ${data.timeline}\n`;
+        body += `Timeline: ${data.timeline}\n`;
     }
     
     if (data.budget) {
         body += `Budget Range: ${data.budget}\n`;
     }
     
+    body += `\n━━━━━━━━━━━━━━━━━━━━━━\n`;
+    body += `Sent from HAVEN Contact Form\n`;
+    
     return body;
 }
 
-// Show success message
+// Show success message with animation
 function showSuccessMessage(form, submitButton) {
     // Reset button state
     submitButton.classList.remove('loading');
@@ -207,16 +272,36 @@ function showSuccessMessage(form, submitButton) {
         
         // Animate success message
         if (typeof gsap !== 'undefined') {
-            gsap.fromTo(successMessage,
-                { opacity: 0, scale: 0.9 },
-                { opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(1.7)' }
-            );
+            const timeline = gsap.timeline();
+            
+            timeline
+                .fromTo(successMessage,
+                    { opacity: 0, scale: 0.9 },
+                    { opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(1.4)' }
+                )
+                .fromTo(successMessage.querySelector('svg'),
+                    { scale: 0, rotation: -180 },
+                    { scale: 1, rotation: 0, duration: 0.6, ease: 'back.out(1.7)' },
+                    '-=0.3'
+                )
+                .fromTo(successMessage.querySelector('h3'),
+                    { opacity: 0, y: 20 },
+                    { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' },
+                    '-=0.2'
+                )
+                .fromTo(successMessage.querySelector('p'),
+                    { opacity: 0, y: 20 },
+                    { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' },
+                    '-=0.2'
+                );
         }
         
         // Scroll to success message
         setTimeout(() => {
-            window.havenUtils.scrollToElement(successMessage, 100);
-        }, 100);
+            if (window.havenUtils) {
+                window.havenUtils.scrollToElement(successMessage, 100);
+            }
+        }, 200);
     }
     
     // Reset form after delay
@@ -225,53 +310,29 @@ function showSuccessMessage(form, submitButton) {
     }, 500);
 }
 
-// Character counter for textareas
-function initCharacterCounter() {
-    const textareas = document.querySelectorAll('textarea[maxlength]');
-    
-    textareas.forEach(textarea => {
-        const maxLength = textarea.getAttribute('maxlength');
-        const counter = document.createElement('div');
-        counter.className = 'character-counter';
-        counter.textContent = `0 / ${maxLength}`;
-        
-        textarea.parentElement.appendChild(counter);
-        
-        textarea.addEventListener('input', () => {
-            const currentLength = textarea.value.length;
-            counter.textContent = `${currentLength} / ${maxLength}`;
-            
-            if (currentLength > maxLength * 0.9) {
-                counter.style.color = 'var(--accent-primary)';
-            } else {
-                counter.style.color = 'var(--text-secondary)';
-            }
-        });
-    });
-}
-
-// Auto-resize textareas
+// Auto-resize textareas as user types
 function initAutoResizeTextareas() {
     const textareas = document.querySelectorAll('.form-textarea');
     
     textareas.forEach(textarea => {
+        // Set initial height
+        autoResize(textarea);
+        
+        // Resize on input
         textarea.addEventListener('input', () => {
-            textarea.style.height = 'auto';
-            textarea.style.height = textarea.scrollHeight + 'px';
+            autoResize(textarea);
         });
     });
 }
 
-// Initialize additional features
-document.addEventListener('DOMContentLoaded', () => {
-    initAutoResizeTextareas();
-});
+function autoResize(textarea) {
+    textarea.style.height = 'auto';
+    textarea.style.height = textarea.scrollHeight + 'px';
+}
 
-// Form integration helpers for third-party services
-
-// Formspree integration
+// Form integration helper for Formspree
 function submitToFormspree(formData, formspreeId) {
-    fetch(`https://formspree.io/f/${formspreeId}`, {
+    return fetch(`https://formspree.io/f/${formspreeId}`, {
         method: 'POST',
         body: formData,
         headers: {
@@ -286,29 +347,29 @@ function submitToFormspree(formData, formspreeId) {
         }
     })
     .then(data => {
-        console.log('Form submitted successfully:', data);
+        console.log('Form submitted successfully to Formspree:', data);
         return true;
     })
     .catch(error => {
-        console.error('Form submission error:', error);
+        console.error('Formspree submission error:', error);
         return false;
     });
 }
 
-// EmailJS integration
-function submitToEmailJS(formData, serviceId, templateId) {
+// Form integration helper for EmailJS
+function submitToEmailJS(templateParams, serviceId, templateId) {
     if (typeof emailjs === 'undefined') {
-        console.error('EmailJS not loaded');
-        return;
+        console.error('EmailJS library not loaded');
+        return Promise.reject('EmailJS not loaded');
     }
     
-    emailjs.send(serviceId, templateId, formData)
+    return emailjs.send(serviceId, templateId, templateParams)
         .then(response => {
-            console.log('Email sent successfully:', response);
+            console.log('Email sent successfully via EmailJS:', response);
             return true;
         })
         .catch(error => {
-            console.error('Email sending failed:', error);
+            console.error('EmailJS submission error:', error);
             return false;
         });
 }
@@ -319,5 +380,6 @@ window.contactForm = {
     validateField,
     validateEmail,
     submitToFormspree,
-    submitToEmailJS
+    submitToEmailJS,
+    createEmailBody
 };
