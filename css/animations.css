@@ -153,17 +153,31 @@
     will-change: transform;
 }
 
-/* Reveal animations */
+/* Reveal animations - WITH FALLBACK */
 [data-reveal] {
+    /* Start visible as fallback */
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Only hide if JS is loaded and GSAP is available */
+body.gsap-loaded [data-reveal] {
     opacity: 0;
     transform: translateY(40px);
 }
 
-[data-reveal].revealed {
+body.gsap-loaded [data-reveal].revealed {
     animation: fadeUp 0.8s var(--transition-cubic) forwards;
 }
 
 [data-stagger] {
+    /* Start visible as fallback */
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Only hide if JS is loaded and GSAP is available */
+body.gsap-loaded [data-stagger] {
     opacity: 0;
     transform: translateY(30px);
 }
@@ -380,11 +394,15 @@
     
     [data-reveal],
     [data-stagger] {
-        opacity: 1;
-        transform: none;
+        opacity: 1 !important;
+        transform: none !important;
     }
     
     .cursor {
+        display: none !important;
+    }
+    
+    .loading-screen {
         display: none !important;
     }
 }
@@ -432,9 +450,27 @@
         animation: none;
         -webkit-text-fill-color: var(--accent-primary);
         background: none;
+        color: var(--accent-primary);
     }
     
     .btn-primary:hover {
         animation: none;
+    }
+}
+
+/* Mobile specific - ensure animations don't break visibility */
+@media (max-width: 768px) {
+    /* Disable complex animations on mobile that might cause issues */
+    .hero-title-line--accent {
+        animation: none;
+        -webkit-text-fill-color: var(--accent-primary);
+        background: none;
+        color: var(--accent-primary);
+    }
+    
+    /* Ensure hover effects work as taps on mobile */
+    .project-card:active .project-image .image-placeholder,
+    .template-card:active .template-image .image-placeholder {
+        transform: scale(1.05);
     }
 }
