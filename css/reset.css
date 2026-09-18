@@ -1,0 +1,212 @@
+/* CSS Reset */
+
+/* Box sizing */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* Remove default margin and padding */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/* HTML and Body */
+html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+}
+
+body {
+    min-height: 100vh;
+    line-height: 1.5;
+    text-rendering: optimizeSpeed;
+    overflow-x: hidden;
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: inherit;
+    line-height: 1.2;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    overflow-wrap: break-word;
+}
+
+/* Lists */
+ul,
+ol {
+    list-style: none;
+}
+
+/* Links */
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+a:focus-visible {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: 2px;
+}
+
+/* Images and Media */
+img,
+picture,
+video,
+canvas,
+svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+/* Forms */
+input,
+button,
+textarea,
+select {
+    font: inherit;
+    color: inherit;
+}
+
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+button:focus-visible {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: 2px;
+}
+
+/* Remove input number arrows */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+/* Textarea */
+textarea {
+    resize: vertical;
+}
+
+/* Table */
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/* Remove animations for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* Selection */
+::selection {
+    background-color: var(--accent-primary);
+    color: var(--color-white);
+}
+
+::-moz-selection {
+    background-color: var(--accent-primary);
+    color: var(--color-white);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-black);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-purple-700);
+    border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-primary);
+}
+
+/* Firefox Scrollbar */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-purple-700) var(--color-black);
+}
+
+/* Focus styles */
+:focus {
+    outline: none;
+}
+
+:focus-visible {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: 2px;
+}
+
+/* Remove default button focus in Firefox */
+button::-moz-focus-inner {
+    border: 0;
+}
+
+/* Remove default fieldset styles */
+fieldset {
+    border: none;
+}
+
+/* Accessibility - Screen reader only content */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* Disabled elements */
+[disabled] {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
