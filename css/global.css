@@ -1,4 +1,4 @@
-/* Global Styles */
+/* Global Styles - HAVEN Premium Digital Agency */
 
 body {
     font-family: var(--font-family);
@@ -32,11 +32,46 @@ body.no-js [data-stagger] {
     position: relative;
 }
 
-/* Background Variations for Visual Depth */
-.about-intro {
-    background: linear-gradient(180deg, var(--color-black) 0%, var(--color-dark-purple) 100%);
+/* ========================================
+   BACKGROUND DEPTH SYSTEM
+   Creates visual rhythm and reduces "too black" feeling
+   ======================================== */
+
+/* Hero - Deep black with purple ambient glow */
+.hero {
+    background: var(--color-black);
+    position: relative;
 }
 
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(ellipse at 30% 40%, rgba(124, 58, 237, 0.12) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 200px;
+    background: linear-gradient(180deg, transparent 0%, var(--color-black-alt) 100%);
+    pointer-events: none;
+}
+
+/* About Section - Gradient from black to dark purple */
+.about-intro {
+    background: linear-gradient(180deg, var(--color-black-alt) 0%, #15111D 50%, var(--color-dark-purple) 100%);
+    position: relative;
+}
+
+/* Services Section - Dark charcoal with purple glow */
 .services-section {
     background: linear-gradient(180deg, var(--color-dark-purple) 0%, #15111D 100%);
     position: relative;
@@ -46,17 +81,20 @@ body.no-js [data-stagger] {
     content: '';
     position: absolute;
     top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(circle at 50% 0%, rgba(124, 58, 237, 0.05) 0%, transparent 70%);
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 100%;
+    background: radial-gradient(ellipse at 50% 0%, rgba(124, 58, 237, 0.08) 0%, transparent 60%);
     pointer-events: none;
 }
 
+/* Process Section - Charcoal to black gradient */
 .process-section {
-    background: linear-gradient(180deg, #15111D 0%, var(--color-black) 100%);
+    background: linear-gradient(180deg, #15111D 0%, var(--color-black) 50%, #0F0A16 100%);
 }
 
+/* Work Section - Deep black with subtle purple ambient lighting */
 .work-section {
     background: var(--color-black);
     position: relative;
@@ -65,40 +103,55 @@ body.no-js [data-stagger] {
 .work-section::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(circle at 30% 50%, rgba(124, 58, 237, 0.08) 0%, transparent 60%);
+    top: 20%;
+    left: 20%;
+    width: 60%;
+    height: 60%;
+    background: radial-gradient(circle at center, rgba(124, 58, 237, 0.06) 0%, transparent 70%);
     pointer-events: none;
+    filter: blur(60px);
 }
 
+/* About Page Sections */
 .about-haven,
 .who-we-are {
     background: linear-gradient(180deg, var(--color-black) 0%, #15111D 100%);
 }
 
-.what-we-believe,
-.features-grid {
+.what-we-believe {
     background: #15111D;
+    position: relative;
+}
+
+.what-we-believe::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(124, 58, 237, 0.3) 50%, transparent 100%);
 }
 
 .how-we-work {
-    background: linear-gradient(180deg, #15111D 0%, var(--color-dark-purple) 100%);
+    background: linear-gradient(180deg, #15111D 0%, var(--color-dark-purple) 50%, var(--color-black) 100%);
 }
 
 .why-haven {
-    background: linear-gradient(180deg, var(--color-dark-purple) 0%, var(--color-black) 100%);
+    background: linear-gradient(180deg, var(--color-black) 0%, #0F0A16 100%);
 }
 
+/* Services Page */
 .service-detail {
     background: var(--color-black);
+    position: relative;
 }
 
-.service-detail--reverse {
+.service-detail:nth-child(even) {
     background: linear-gradient(180deg, var(--color-black) 0%, #15111D 50%, var(--color-black) 100%);
 }
 
+/* Templates Section */
 .template-filters-section,
 .work-filters-section {
     background: linear-gradient(180deg, var(--color-black) 0%, #15111D 100%);
@@ -113,18 +166,33 @@ body.no-js [data-stagger] {
     background: linear-gradient(180deg, #15111D 0%, var(--color-dark-purple) 100%);
 }
 
+/* Pricing Section */
 .pricing-section {
-    background: linear-gradient(180deg, var(--color-black) 0%, #15111D 100%);
+    background: linear-gradient(180deg, var(--color-black) 0%, #15111D 50%, var(--color-dark-purple) 100%);
+    position: relative;
+}
+
+.pricing-section::before {
+    content: '';
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70%;
+    height: 40%;
+    background: radial-gradient(ellipse at center, rgba(124, 58, 237, 0.05) 0%, transparent 70%);
+    pointer-events: none;
 }
 
 .additional-services {
-    background: #15111D;
+    background: var(--color-dark-purple);
 }
 
 .faq-section {
-    background: linear-gradient(180deg, #15111D 0%, var(--color-black) 100%);
+    background: linear-gradient(180deg, var(--color-dark-purple) 0%, var(--color-black) 100%);
 }
 
+/* Contact Page */
 .contact-info-section {
     background: linear-gradient(180deg, var(--color-black) 0%, var(--color-dark-purple) 100%);
 }
@@ -137,16 +205,36 @@ body.no-js [data-stagger] {
 .contact-form-section::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
     bottom: 0;
-    background: radial-gradient(circle at 50% 100%, rgba(124, 58, 237, 0.1) 0%, transparent 60%);
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 50%;
+    background: radial-gradient(ellipse at 50% 100%, rgba(124, 58, 237, 0.1) 0%, transparent 70%);
     pointer-events: none;
 }
 
 .contact-faq-section {
     background: linear-gradient(180deg, var(--color-dark-purple) 0%, var(--color-black) 100%);
+}
+
+/* CTA Sections - Purple gradient with glow */
+.cta-section {
+    background: linear-gradient(135deg, #1A0D2B 0%, var(--color-dark-purple) 50%, #15111D 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-section::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(124, 58, 237, 0.15) 0%, transparent 70%);
+    pointer-events: none;
 }
 
 /* Typography */
@@ -184,7 +272,7 @@ p {
 .text-large {
     font-size: var(--font-size-xl);
     line-height: var(--line-height-relaxed);
-    color: var(--text-primary);
+    color: #E5E5E5;
 }
 
 /* Links */
@@ -209,7 +297,7 @@ a:hover {
 .section-subtitle {
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-semibold);
-    letter-spacing: 0.1em;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--accent-primary);
     margin-bottom: var(--space-base);
@@ -229,10 +317,11 @@ a:hover {
     content: '';
     position: absolute;
     top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(circle at 50% 0%, rgba(124, 58, 237, 0.1) 0%, transparent 70%);
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 100%;
+    background: radial-gradient(ellipse at 50% 20%, rgba(124, 58, 237, 0.1) 0%, transparent 60%);
     pointer-events: none;
 }
 
@@ -261,47 +350,33 @@ a:hover {
 .page-subtitle {
     font-size: var(--font-size-xl);
     line-height: var(--line-height-relaxed);
-    color: var(--text-secondary);
+    color: #C1C1C1;
     max-width: 600px;
     position: relative;
     z-index: 1;
 }
 
-/* Hero Section */
+/* Hero Section - Premium Layout */
 .hero {
     min-height: 100vh;
     min-height: 100dvh;
     display: flex;
     align-items: center;
-    padding: calc(var(--nav-height) + var(--space-2xl)) 0 var(--space-2xl);
-    position: relative;
-    background: var(--color-black);
-}
-
-.hero::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(circle at 30% 40%, rgba(124, 58, 237, 0.15) 0%, transparent 60%);
-    pointer-events: none;
+    padding: calc(var(--nav-height) + var(--space-2xl)) 0 var(--space-4xl);
 }
 
 .hero-content {
     position: relative;
-    z-index: var(--z-base);
+    z-index: 2;
 }
 
 .hero-eyebrow {
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-semibold);
-    letter-spacing: 0.2em;
+    letter-spacing: 0.25em;
     text-transform: uppercase;
     color: var(--accent-primary);
     margin-bottom: var(--space-lg);
-    /* Fallback visibility */
     opacity: 1;
 }
 
@@ -312,29 +387,37 @@ a:hover {
     letter-spacing: -0.04em;
     text-transform: uppercase;
     margin-bottom: var(--space-xl);
-    /* Fallback visibility */
     opacity: 1;
 }
 
 .hero-title-line {
     display: block;
     overflow: hidden;
-    /* Fallback visibility */
     opacity: 1;
 }
 
 .hero-title-line--accent {
     color: var(--accent-primary);
-    text-shadow: 0 0 30px rgba(124, 58, 237, 0.5);
+    position: relative;
+}
+
+.hero-title-line--accent::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+    opacity: 0.3;
 }
 
 .hero-text {
     font-size: var(--font-size-xl);
     line-height: var(--line-height-relaxed);
-    color: var(--text-secondary);
+    color: #C1C1C1;
     max-width: 600px;
     margin-bottom: var(--space-2xl);
-    /* Fallback visibility */
     opacity: 1;
 }
 
@@ -342,7 +425,6 @@ a:hover {
     display: flex;
     gap: var(--space-base);
     flex-wrap: wrap;
-    /* Fallback visibility */
     opacity: 1;
 }
 
@@ -356,10 +438,11 @@ a:hover {
     align-items: center;
     gap: var(--space-sm);
     font-size: var(--font-size-xs);
-    letter-spacing: 0.1em;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--text-secondary);
     opacity: 1;
+    z-index: 2;
 }
 
 .hero-scroll svg {
@@ -371,15 +454,15 @@ a:hover {
         transform: translateY(0);
     }
     50% {
-        transform: translateY(10px);
+        transform: translateY(8px);
     }
 }
 
-/* Image Placeholder */
+/* Image Placeholder - Improved with purple tint */
 .image-placeholder {
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, #1A0D2B, #15111D);
+    background: linear-gradient(135deg, #1A0D2B 0%, #15111D 50%, #1A1028 100%);
     position: relative;
     overflow: hidden;
 }
@@ -394,9 +477,20 @@ a:hover {
     background: linear-gradient(
         135deg,
         transparent 0%,
-        rgba(124, 58, 237, 0.15) 50%,
+        rgba(124, 58, 237, 0.12) 50%,
         transparent 100%
     );
+}
+
+.image-placeholder::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    height: 60%;
+    background: radial-gradient(circle at center, rgba(124, 58, 237, 0.08) 0%, transparent 70%);
 }
 
 /* Image Reveal */
@@ -418,29 +512,7 @@ a:hover {
     z-index: 2;
 }
 
-/* Lists */
-ul {
-    list-style: none;
-}
-
-/* Utility Classes */
-.text-center {
-    text-align: center;
-}
-
-.text-uppercase {
-    text-transform: uppercase;
-}
-
-.font-bold {
-    font-weight: var(--font-weight-bold);
-}
-
-.color-accent {
-    color: var(--accent-primary);
-}
-
-/* Loading Screen */
+/* Loading Screen - Critical reliability improvements */
 .loading-screen {
     position: fixed;
     top: 0;
@@ -488,7 +560,7 @@ ul {
     opacity: 0;
 }
 
-/* Ensure loading screen disappears if JS fails */
+/* Ensure loading screen never blocks content permanently */
 @media (prefers-reduced-motion: reduce) {
     .loading-screen {
         display: none !important;
@@ -507,10 +579,11 @@ ul {
     content: '';
     position: absolute;
     top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(circle at 50% 0%, rgba(124, 58, 237, 0.08) 0%, transparent 60%);
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50%;
+    height: 100%;
+    background: radial-gradient(ellipse at 50% 0%, rgba(124, 58, 237, 0.08) 0%, transparent 60%);
     pointer-events: none;
 }
 
@@ -562,6 +635,7 @@ ul {
 .legal-section p {
     margin-bottom: var(--space-base);
     line-height: var(--line-height-relaxed);
+    color: #C1C1C1;
 }
 
 .legal-section ul {
@@ -572,7 +646,7 @@ ul {
 
 .legal-section li {
     margin-bottom: var(--space-xs);
-    color: var(--text-secondary);
+    color: #C1C1C1;
     line-height: var(--line-height-relaxed);
 }
 
@@ -625,4 +699,32 @@ ul {
     .page-hero::before {
         opacity: 0.5;
     }
+    
+    /* Simplify gradients on mobile */
+    .hero::before,
+    .work-section::before {
+        filter: blur(40px);
+    }
+}
+
+/* Section Header Spacing */
+.section-header {
+    margin-bottom: var(--space-3xl);
+}
+
+/* Utility Classes */
+.text-center {
+    text-align: center;
+}
+
+.text-uppercase {
+    text-transform: uppercase;
+}
+
+.font-bold {
+    font-weight: var(--font-weight-bold);
+}
+
+.color-accent {
+    color: var(--accent-primary);
 }
