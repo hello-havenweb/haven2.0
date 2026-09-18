@@ -1,4 +1,4 @@
-// Template Filtering Functionality
+// Template Filtering Functionality - HAVEN Premium Digital Agency
 
 function initTemplateFilters() {
     const filterBtns = document.querySelectorAll('.template-filters .filter-btn');
@@ -11,17 +11,17 @@ function initTemplateFilters() {
         btn.addEventListener('click', () => {
             const filter = btn.dataset.filter;
             
-            // Update active button
+            // Update active button with smooth transition
             filterBtns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             
-            // Filter templates
+            // Filter templates with premium animation
             filterTemplates(filter, templateCards, noResults);
         });
     });
 }
 
-// Filter templates with animation
+// Filter templates with premium animation
 function filterTemplates(filter, cards, noResults) {
     let visibleCount = 0;
     
@@ -36,18 +36,23 @@ function filterTemplates(filter, cards, noResults) {
             // Animate in with stagger
             if (typeof gsap !== 'undefined') {
                 gsap.fromTo(card,
-                    { opacity: 0, y: 30, scale: 0.95 },
+                    { 
+                        opacity: 0, 
+                        y: 40,
+                        scale: 0.95 
+                    },
                     { 
                         opacity: 1, 
-                        y: 0, 
+                        y: 0,
                         scale: 1,
-                        duration: 0.5,
-                        delay: index * 0.05,
+                        duration: 0.6,
+                        delay: index * 0.08,
                         ease: 'power2.out'
                     }
                 );
             } else {
                 card.style.opacity = '1';
+                card.style.transform = 'none';
             }
         } else {
             // Hide card
@@ -87,7 +92,7 @@ function filterTemplates(filter, cards, noResults) {
     if (typeof ScrollTrigger !== 'undefined') {
         setTimeout(() => {
             ScrollTrigger.refresh();
-        }, 600);
+        }, 700);
     }
 }
 
@@ -105,37 +110,33 @@ function initTemplateCardInteractions() {
             });
         });
         
-        // Add hover effect for entire card
-        card.addEventListener('mouseenter', () => {
-            if (typeof gsap !== 'undefined' && !window.havenUtils.prefersReducedMotion()) {
+        // Premium hover effect for entire card
+        if (window.innerWidth > 1024 && typeof gsap !== 'undefined') {
+            card.addEventListener('mouseenter', () => {
                 gsap.to(card, {
-                    y: -4,
-                    boxShadow: '0 10px 40px rgba(124, 58, 237, 0.3)',
-                    duration: 0.3,
+                    y: -6,
+                    duration: 0.4,
                     ease: 'power2.out'
                 });
-            }
-        });
-        
-        card.addEventListener('mouseleave', () => {
-            if (typeof gsap !== 'undefined' && !window.havenUtils.prefersReducedMotion()) {
+            });
+            
+            card.addEventListener('mouseleave', () => {
                 gsap.to(card, {
                     y: 0,
-                    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.3)',
-                    duration: 0.3,
+                    duration: 0.4,
                     ease: 'power2.out'
                 });
-            }
-        });
+            });
+        }
     });
 }
 
-// Initialize template card interactions
+// Initialize template card interactions on load
 document.addEventListener('DOMContentLoaded', () => {
     initTemplateCardInteractions();
 });
 
-// Search functionality (if needed in future)
+// Search functionality (future enhancement)
 function initTemplateSearch() {
     const searchInput = document.querySelector('.template-search');
     
@@ -156,27 +157,31 @@ function initTemplateSearch() {
                 category.includes(searchTerm) ||
                 searchTerm === '') {
                 card.style.display = 'block';
+                
+                if (typeof gsap !== 'undefined') {
+                    gsap.fromTo(card,
+                        { opacity: 0, scale: 0.95 },
+                        { opacity: 1, scale: 1, duration: 0.4, ease: 'power2.out' }
+                    );
+                } else {
+                    card.style.opacity = '1';
+                }
             } else {
-                card.style.display = 'none';
+                if (typeof gsap !== 'undefined') {
+                    gsap.to(card, {
+                        opacity: 0,
+                        scale: 0.95,
+                        duration: 0.3,
+                        onComplete: () => {
+                            card.style.display = 'none';
+                        }
+                    });
+                } else {
+                    card.style.display = 'none';
+                }
             }
         });
     }, 300));
-}
-
-// Template quick view modal (future enhancement)
-function initTemplateQuickView() {
-    const viewButtons = document.querySelectorAll('[data-template-view]');
-    
-    viewButtons.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            const templateId = btn.dataset.templateView;
-            
-            // Open modal with template preview
-            // This would require additional modal markup
-            console.log('Opening template preview for:', templateId);
-        });
-    });
 }
 
 // Sort templates
@@ -197,20 +202,64 @@ function sortTemplates(sortBy) {
         return 0;
     });
     
-    // Re-append sorted cards
-    templateCards.forEach(card => {
-        templatesGrid.appendChild(card);
-    });
-    
-    // Refresh animations
-    if (typeof ScrollTrigger !== 'undefined') {
-        ScrollTrigger.refresh();
+    // Animate out
+    if (typeof gsap !== 'undefined') {
+        gsap.to(templateCards, {
+            opacity: 0,
+            y: -20,
+            duration: 0.3,
+            stagger: 0.02,
+            ease: 'power2.in',
+            onComplete: () => {
+                // Re-append sorted cards
+                templateCards.forEach(card => {
+                    templatesGrid.appendChild(card);
+                });
+                
+                // Animate in
+                gsap.fromTo(templateCards,
+                    { opacity: 0, y: 20 },
+                    { 
+                        opacity: 1, 
+                        y: 0, 
+                        duration: 0.5,
+                        stagger: 0.05,
+                        ease: 'power2.out'
+                    }
+                );
+                
+                // Refresh ScrollTrigger
+                if (typeof ScrollTrigger !== 'undefined') {
+                    ScrollTrigger.refresh();
+                }
+            }
+        });
+    } else {
+        // Fallback without animation
+        templateCards.forEach(card => {
+            templatesGrid.appendChild(card);
+        });
     }
+}
+
+// Template quick view modal (future enhancement)
+function openTemplatePreview(templateId) {
+    // This would create a modal overlay with template preview
+    // For now, this is a placeholder for future implementation
+    console.log('Opening template preview for:', templateId);
+    
+    // Future implementation could include:
+    // - Full-screen modal
+    // - Template screenshot carousel
+    // - Feature list
+    // - Live demo link
+    // - Purchase/customize options
 }
 
 // Export functions for external use
 window.templateFilters = {
     initTemplateFilters,
     filterTemplates,
-    sortTemplates
+    sortTemplates,
+    openTemplatePreview
 };
