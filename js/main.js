@@ -1,6 +1,19 @@
 // Main JavaScript File
 // Initializes all functionality when DOM is loaded
 
+// Set flag for no-js fallback
+document.documentElement.classList.remove('no-js');
+
+// Loading screen timeout fallback - always remove after 3 seconds
+const loadingTimeout = setTimeout(() => {
+    const loadingScreen = document.querySelector('.loading-screen');
+    if (loadingScreen) {
+        loadingScreen.classList.add('hidden');
+        loadingScreen.style.display = 'none';
+    }
+    document.body.classList.add('gsap-loaded');
+}, 3000);
+
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize loading screen
     initLoadingScreen();
@@ -13,18 +26,25 @@ document.addEventListener('DOMContentLoaded', () => {
         initNavigation();
     }
     
-    // Initialize animations
-    if (typeof initAnimations === 'function') {
-        initAnimations();
+    // Initialize animations only if GSAP is loaded
+    if (typeof gsap !== 'undefined') {
+        document.body.classList.add('gsap-loaded');
+        if (typeof initAnimations === 'function') {
+            initAnimations();
+        }
+    } else {
+        console.warn('GSAP not loaded - animations disabled');
+        // Ensure content is visible
+        document.body.classList.remove('gsap-loaded');
     }
     
-    // Initialize cursor
-    if (typeof initCursor === 'function') {
+    // Initialize cursor (desktop only)
+    if (typeof initCursor === 'function' && !isTouchDevice()) {
         initCursor();
     }
     
-    // Initialize page transitions
-    if (typeof initPageTransitions === 'function') {
+    // Initialize page transitions (not on mobile for better performance)
+    if (typeof initPageTransitions === 'function' && window.innerWidth > 768) {
         initPageTransitions();
     }
     
@@ -40,6 +60,14 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Initialize work filters
     initWorkFilters();
+    
+    // Ensure loading screen is hidden after initialization
+    setTimeout(() => {
+        const loadingScreen = document.querySelector('.loading-screen');
+        if (loadingScreen) {
+            loadingScreen.classList.add('hidden');
+        }
+    }, 100);
 });
 
 // Loading Screen Animation
@@ -48,9 +76,23 @@ function initLoadingScreen() {
     
     if (!loadingScreen) return;
     
+    // Check if GSAP is available
+    if (typeof gsap === 'undefined') {
+        // Fallback - just hide the loading screen
+        setTimeout(() => {
+            loadingScreen.classList.add('hidden');
+            loadingScreen.style.display = 'none';
+        }, 500);
+        return;
+    }
+    
     const timeline = gsap.timeline({
         onComplete: () => {
-            loadingScreen.style.display = 'none';
+            loadingScreen.classList.add('hidden');
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+            }, 500);
+            clearTimeout(loadingTimeout);
         }
     });
     
@@ -93,6 +135,14 @@ function initScrollTrigger() {
     
     gsap.registerPlugin(ScrollTrigger);
     
+    // Disable on mobile for better performance
+    if (window.innerWidth <= 768) {
+        ScrollTrigger.config({
+            limitCallbacks: true,
+            ignoreMobileResize: true
+        });
+    }
+    
     // Refresh ScrollTrigger on window resize
     let resizeTimer;
     window.addEventListener('resize', () => {
@@ -129,19 +179,27 @@ function initWorkFilters() {
                     card.style.display = 'block';
                     visibleCount++;
                     
-                    // Animate in
-                    gsap.fromTo(card, 
-                        { opacity: 0, y: 20 },
-                        { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }
-                    );
+                    // Animate in if GSAP available
+                    if (typeof gsap !== 'undefined') {
+                        gsap.fromTo(card, 
+                            { opacity: 0, y: 20 },
+                            { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }
+                        );
+                    } else {
+                        card.style.opacity = '1';
+                    }
                 } else {
-                    gsap.to(card, {
-                        opacity: 0,
-                        duration: 0.3,
-                        onComplete: () => {
-                            card.style.display = 'none';
-                        }
-                    });
+                    if (typeof gsap !== 'undefined') {
+                        gsap.to(card, {
+                            opacity: 0,
+                            duration: 0.3,
+                            onComplete: () => {
+                                card.style.display = 'none';
+                            }
+                        });
+                    } else {
+                        card.style.display = 'none';
+                    }
                 }
             });
             
@@ -216,11 +274,15 @@ function isTouchDevice() {
 // Prevent scroll
 function preventScroll() {
     document.body.style.overflow = 'hidden';
+    document.body.style.position = 'fixed';
+    document.body.style.width = '100%';
 }
 
 // Allow scroll
 function allowScroll() {
     document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.width = '';
 }
 
 // Check reduced motion preference
@@ -240,3 +302,29 @@ window.havenUtils = {
     allowScroll,
     prefersReducedMotion
 };
+
+// Error handling - ensure site is visible even if JS errors occur
+window.addEventListener('error', function(e) {
+    console.error('JavaScript error:', e.error);
+    
+    // Remove loading screen on error
+    const loadingScreen = document.querySelector('.loading-screen');
+    if (loadingScreen) {
+        loadingScreen.classList.add('hidden');
+        loadingScreen.style.display = 'none';
+    }
+    
+    // Ensure content is visible
+    document.querySelectorAll('[data-reveal], [data-stagger]').forEach(el => {
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+    });
+});
+
+// Fallback for browsers without GSAP
+if (typeof gsap === 'undefined') {
+    document.querySelectorAll('[data-reveal], [data-stagger]').forEach(el => {
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+    });
+}
