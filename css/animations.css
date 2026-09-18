@@ -1,6 +1,9 @@
-/* Animation Utilities */
+/* Animation Utilities - HAVEN Premium Digital Agency */
 
-/* Fade In */
+/* ========================================
+   KEYFRAME ANIMATIONS
+   ======================================== */
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -10,7 +13,6 @@
     }
 }
 
-/* Fade Up */
 @keyframes fadeUp {
     from {
         opacity: 0;
@@ -22,7 +24,6 @@
     }
 }
 
-/* Fade Down */
 @keyframes fadeDown {
     from {
         opacity: 0;
@@ -34,7 +35,6 @@
     }
 }
 
-/* Scale In */
 @keyframes scaleIn {
     from {
         opacity: 0;
@@ -46,7 +46,6 @@
     }
 }
 
-/* Slide In Right */
 @keyframes slideInRight {
     from {
         opacity: 0;
@@ -58,7 +57,6 @@
     }
 }
 
-/* Slide In Left */
 @keyframes slideInLeft {
     from {
         opacity: 0;
@@ -70,7 +68,6 @@
     }
 }
 
-/* Reveal Clip Path */
 @keyframes revealClip {
     from {
         clip-path: inset(0 100% 0 0);
@@ -80,12 +77,61 @@
     }
 }
 
-/* Custom Cursor */
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(8px);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 0 20px rgba(124, 58, 237, 0);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes inputGlow {
+    0% {
+        box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.4);
+    }
+    100% {
+        box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15), 0 0 24px rgba(124, 58, 237, 0.2);
+    }
+}
+
+/* ========================================
+   CUSTOM CURSOR
+   ======================================== */
+
 .cursor {
     position: fixed;
     pointer-events: none;
     z-index: var(--z-cursor);
     display: none;
+    mix-blend-mode: difference;
 }
 
 .cursor-dot {
@@ -96,7 +142,7 @@
     position: absolute;
     top: -4px;
     left: -4px;
-    transition: transform 0.1s ease;
+    transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .cursor-outline {
@@ -107,7 +153,7 @@
     position: absolute;
     top: -20px;
     left: -20px;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -119,6 +165,7 @@
     color: var(--accent-primary);
     opacity: 0;
     transition: opacity 0.3s ease;
+    letter-spacing: 0.05em;
 }
 
 .cursor.hover .cursor-outline {
@@ -126,7 +173,8 @@
     height: 80px;
     top: -40px;
     left: -40px;
-    background: rgba(124, 58, 237, 0.1);
+    background: rgba(124, 58, 237, 0.15);
+    backdrop-filter: blur(10px);
 }
 
 .cursor.hover .cursor-text {
@@ -148,48 +196,53 @@
     }
 }
 
-/* Parallax */
+/* ========================================
+   PARALLAX
+   ======================================== */
+
 [data-parallax] {
     will-change: transform;
 }
 
-/* Reveal animations - WITH FALLBACK */
+/* ========================================
+   REVEAL ANIMATIONS
+   ======================================== */
+
 [data-reveal] {
-    /* Start visible as fallback */
     opacity: 1;
     transform: translateY(0);
 }
 
-/* Only hide if JS is loaded and GSAP is available */
 body.gsap-loaded [data-reveal] {
     opacity: 0;
     transform: translateY(40px);
 }
 
 body.gsap-loaded [data-reveal].revealed {
-    animation: fadeUp 0.8s var(--transition-cubic) forwards;
+    animation: fadeUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 [data-stagger] {
-    /* Start visible as fallback */
     opacity: 1;
     transform: translateY(0);
 }
 
-/* Only hide if JS is loaded and GSAP is available */
 body.gsap-loaded [data-stagger] {
     opacity: 0;
     transform: translateY(30px);
 }
 
-/* Page Transition Overlay */
+/* ========================================
+   PAGE TRANSITION OVERLAY
+   ======================================== */
+
 .page-transition {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: var(--bg-primary);
+    background: linear-gradient(135deg, var(--color-black) 0%, var(--color-dark-purple) 100%);
     z-index: calc(var(--z-loading) - 1);
     pointer-events: none;
     opacity: 0;
@@ -200,10 +253,14 @@ body.gsap-loaded [data-stagger] {
     pointer-events: all;
 }
 
+/* ========================================
+   COMPONENT ANIMATIONS
+   ======================================== */
+
 /* Image Scale on Hover */
 .project-image img,
 .project-image .image-placeholder {
-    transition: transform 0.6s var(--transition-cubic);
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .project-card:hover .project-image img,
@@ -214,23 +271,23 @@ body.gsap-loaded [data-stagger] {
 
 /* Template Card Animation */
 .template-card .template-image .image-placeholder {
-    transition: transform 0.6s var(--transition-cubic);
+    transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .template-card:hover .template-image .image-placeholder {
-    transform: scale(1.1);
+    transform: scale(1.08);
 }
 
 /* Service Item Underline Animation */
 .service-item::after {
     content: '';
     position: absolute;
-    bottom: -1px;
+    bottom: 0;
     left: 0;
     width: 0;
     height: 2px;
-    background: var(--accent-primary);
-    transition: width 0.4s var(--transition-cubic);
+    background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .service-item:hover::after {
@@ -248,7 +305,7 @@ body.gsap-loaded [data-stagger] {
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.1);
     transform: translate(-50%, -50%);
-    transition: width 0.6s, height 0.6s;
+    transition: width 0.6s ease, height 0.6s ease;
 }
 
 .btn:active::before {
@@ -260,15 +317,16 @@ body.gsap-loaded [data-stagger] {
 .nav-link::before {
     content: '';
     position: absolute;
-    bottom: -4px;
+    bottom: 0;
     left: 0;
     width: 0;
     height: 2px;
-    background: var(--accent-primary);
-    transition: width 0.3s var(--transition-cubic);
+    background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.nav-link:hover::before {
+.nav-link:hover::before,
+.nav-link.active::before {
     width: 100%;
 }
 
@@ -281,7 +339,7 @@ body.gsap-loaded [data-stagger] {
     width: 0;
     height: 1px;
     background: var(--accent-primary);
-    transition: width 0.3s var(--transition-cubic);
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .footer-links li {
@@ -296,28 +354,10 @@ body.gsap-loaded [data-stagger] {
 .form-input:focus,
 .form-select:focus,
 .form-textarea:focus {
-    animation: inputGlow 0.3s ease;
-}
-
-@keyframes inputGlow {
-    0% {
-        box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.4);
-    }
-    100% {
-        box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
-    }
+    animation: inputGlow 0.3s ease forwards;
 }
 
 /* Loading Button Animation */
-@keyframes spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
-}
-
 .btn.loading::after {
     content: '';
     width: 16px;
@@ -332,15 +372,17 @@ body.gsap-loaded [data-stagger] {
 
 /* Pricing Card Hover Glow */
 .pricing-card--featured {
-    box-shadow: 0 0 0 0 rgba(124, 58, 237, 0);
-    transition: all 0.4s var(--transition-cubic);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .pricing-card--featured:hover {
     box-shadow: 0 0 40px 0 rgba(124, 58, 237, 0.3);
 }
 
-/* Stagger Animation Delays */
+/* ========================================
+   STAGGER ANIMATION DELAYS
+   ======================================== */
+
 [data-stagger]:nth-child(1) { transition-delay: 0.1s; }
 [data-stagger]:nth-child(2) { transition-delay: 0.2s; }
 [data-stagger]:nth-child(3) { transition-delay: 0.3s; }
@@ -350,39 +392,89 @@ body.gsap-loaded [data-stagger] {
 [data-stagger]:nth-child(7) { transition-delay: 0.7s; }
 [data-stagger]:nth-child(8) { transition-delay: 0.8s; }
 
-/* Mobile Menu Link Stagger */
+/* ========================================
+   MOBILE MENU LINK STAGGER
+   ======================================== */
+
 .mobile-menu.active .mobile-menu-link:nth-child(1) { 
-    animation: slideInRight 0.4s 0.1s var(--transition-cubic) forwards; 
+    animation: slideInRight 0.5s 0.1s cubic-bezier(0.4, 0, 0.2, 1) forwards; 
 }
 .mobile-menu.active .mobile-menu-link:nth-child(2) { 
-    animation: slideInRight 0.4s 0.2s var(--transition-cubic) forwards; 
+    animation: slideInRight 0.5s 0.2s cubic-bezier(0.4, 0, 0.2, 1) forwards; 
 }
 .mobile-menu.active .mobile-menu-link:nth-child(3) { 
-    animation: slideInRight 0.4s 0.3s var(--transition-cubic) forwards; 
+    animation: slideInRight 0.5s 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards; 
 }
 .mobile-menu.active .mobile-menu-link:nth-child(4) { 
-    animation: slideInRight 0.4s 0.4s var(--transition-cubic) forwards; 
+    animation: slideInRight 0.5s 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards; 
 }
 .mobile-menu.active .mobile-menu-link:nth-child(5) { 
-    animation: slideInRight 0.4s 0.5s var(--transition-cubic) forwards; 
+    animation: slideInRight 0.5s 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; 
 }
 .mobile-menu.active .mobile-menu-link:nth-child(6) { 
-    animation: slideInRight 0.4s 0.6s var(--transition-cubic) forwards; 
+    animation: slideInRight 0.5s 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards; 
 }
 .mobile-menu.active .mobile-menu-link:nth-child(7) { 
-    animation: slideInRight 0.4s 0.7s var(--transition-cubic) forwards; 
+    animation: slideInRight 0.5s 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards; 
 }
 .mobile-menu.active .mobile-menu-cta { 
-    animation: slideInRight 0.4s 0.8s var(--transition-cubic) forwards; 
+    animation: slideInRight 0.5s 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards; 
 }
 
-/* Smooth Opacity Transitions */
+/* ========================================
+   SMOOTH OPACITY TRANSITIONS
+   ======================================== */
+
 .fade-in {
     opacity: 0;
-    animation: fadeIn 0.6s var(--transition-cubic) forwards;
+    animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
-/* Reduce Motion Override */
+/* ========================================
+   TEXT SHIMMER EFFECT
+   ======================================== */
+
+.hero-title-line--accent {
+    background: linear-gradient(
+        90deg,
+        var(--accent-primary) 0%,
+        var(--accent-secondary) 50%,
+        var(--accent-primary) 100%
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 4s linear infinite;
+}
+
+/* ========================================
+   SCROLL PROGRESS BAR
+   ======================================== */
+
+.scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: rgba(15, 10, 22, 0.5);
+    z-index: calc(var(--z-nav) + 1);
+    pointer-events: none;
+}
+
+.scroll-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #7C3AED, #A855F7);
+    width: 0%;
+    transition: width 0.1s ease;
+    box-shadow: 0 0 12px rgba(124, 58, 237, 0.6);
+}
+
+/* ========================================
+   REDUCED MOTION OVERRIDE
+   ======================================== */
+
 @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -402,50 +494,6 @@ body.gsap-loaded [data-stagger] {
         display: none !important;
     }
     
-    .loading-screen {
-        display: none !important;
-    }
-}
-
-/* Pulse Animation for CTA */
-@keyframes pulse {
-    0%, 100% {
-        box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.4);
-    }
-    50% {
-        box-shadow: 0 0 0 20px rgba(124, 58, 237, 0);
-    }
-}
-
-.btn-primary:hover {
-    animation: pulse 1.5s infinite;
-}
-
-/* Text Shimmer Effect */
-@keyframes shimmer {
-    0% {
-        background-position: -1000px 0;
-    }
-    100% {
-        background-position: 1000px 0;
-    }
-}
-
-.hero-title-line--accent {
-    background: linear-gradient(
-        90deg,
-        var(--accent-primary) 0%,
-        var(--accent-secondary) 50%,
-        var(--accent-primary) 100%
-    );
-    background-size: 1000px 100%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: shimmer 3s linear infinite;
-}
-
-@media (prefers-reduced-motion: reduce) {
     .hero-title-line--accent {
         animation: none;
         -webkit-text-fill-color: var(--accent-primary);
@@ -456,11 +504,18 @@ body.gsap-loaded [data-stagger] {
     .btn-primary:hover {
         animation: none;
     }
+    
+    [data-parallax] {
+        transform: none !important;
+    }
 }
 
-/* Mobile specific - ensure animations don't break visibility */
+/* ========================================
+   MOBILE OPTIMIZATIONS
+   ======================================== */
+
 @media (max-width: 768px) {
-    /* Disable complex animations on mobile that might cause issues */
+    /* Disable expensive animations on mobile */
     .hero-title-line--accent {
         animation: none;
         -webkit-text-fill-color: var(--accent-primary);
@@ -468,9 +523,16 @@ body.gsap-loaded [data-stagger] {
         color: var(--accent-primary);
     }
     
-    /* Ensure hover effects work as taps on mobile */
+    /* Simplify hover interactions for touch */
     .project-card:active .project-image .image-placeholder,
     .template-card:active .template-image .image-placeholder {
-        transform: scale(1.05);
+        transform: scale(1.03);
+    }
+    
+    /* Faster transitions on mobile */
+    .btn,
+    .nav-link,
+    .service-item {
+        transition-duration: 0.2s;
     }
 }
