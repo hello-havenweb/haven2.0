@@ -1,0 +1,336 @@
+/* Project Visual Mockups - HAVEN Premium Digital Agency */
+/* CSS-generated project screenshots to replace placeholder gradients */
+
+/* ========================================
+   PROJECT IMAGE SYSTEM
+   Creates sophisticated visual mockups using pure CSS
+   ======================================== */
+
+.image-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #1A0D2B 0%, #15111D 50%, #1A1028 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Base visual foundation */
+.image-placeholder::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        linear-gradient(135deg, transparent 0%, rgba(124, 58, 237, 0.1) 50%, transparent 100%),
+        radial-gradient(circle at 30% 30%, rgba(168, 85, 247, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 70% 70%, rgba(124, 58, 237, 0.1) 0%, transparent 50%);
+}
+
+/* ========================================
+   PROJECT-SPECIFIC DESIGNS
+   Each project gets unique visual treatment
+   ======================================== */
+
+/* Project 01 - Eclipse Studio (Creative Agency) */
+.project-card:nth-child(1) .image-placeholder,
+.project-card-large:nth-child(1) .image-placeholder {
+    background: linear-gradient(135deg, #0F0A16 0%, #1A0D2B 100%);
+}
+
+.project-card:nth-child(1) .image-placeholder::after,
+.project-card-large:nth-child(1) .image-placeholder::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    height: 60%;
+    background: 
+        linear-gradient(45deg, transparent 30%, rgba(124, 58, 237, 0.3) 50%, transparent 70%),
+        linear-gradient(-45deg, transparent 30%, rgba(168, 85, 247, 0.2) 50%, transparent 70%);
+    border-radius: 50%;
+    filter: blur(40px);
+}
+
+/* Project 02 - Vertex Tech (SaaS Platform) */
+.project-card:nth-child(2) .image-placeholder,
+.project-card-large:nth-child(2) .image-placeholder {
+    background: linear-gradient(135deg, #15111D 0%, #0F0A16 100%);
+}
+
+.project-card:nth-child(2) .image-placeholder::after,
+.project-card-large:nth-child(2) .image-placeholder::after {
+    content: '';
+    position: absolute;
+    top: 20%;
+    left: 10%;
+    right: 10%;
+    height: 60%;
+    background: 
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 30px,
+            rgba(124, 58, 237, 0.1) 30px,
+            rgba(124, 58, 237, 0.1) 31px
+        );
+    border: 1px solid rgba(124, 58, 237, 0.3);
+    border-radius: 8px;
+}
+
+/* Project 03 - Urban Eats (Restaurant) */
+.project-card:nth-child(3) .image-placeholder,
+.project-card-large:nth-child(3) .image-placeholder {
+    background: linear-gradient(135deg, #1A1028 0%, #15111D 100%);
+}
+
+.project-card:nth-child(3) .image-placeholder::after,
+.project-card-large:nth-child(3) .image-placeholder::after {
+    content: '';
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 200px;
+    background: 
+        radial-gradient(circle, rgba(168, 85, 247, 0.4) 0%, transparent 70%),
+        radial-gradient(circle at 50% 50%, rgba(124, 58, 237, 0.2) 0%, transparent 60%);
+    border-radius: 50%;
+    filter: blur(30px);
+}
+
+/* Project 04 - Alpine Gear (E-commerce) */
+.project-card:nth-child(4) .image-placeholder,
+.project-card-large:nth-child(4) .image-placeholder {
+    background: linear-gradient(135deg, #0F0A16 0%, #1A0D2B 50%, #15111D 100%);
+}
+
+.project-card:nth-child(4) .image-placeholder::after,
+.project-card-large:nth-child(4) .image-placeholder::after {
+    content: '';
+    position: absolute;
+    top: 25%;
+    left: 15%;
+    right: 15%;
+    bottom: 25%;
+    background: 
+        linear-gradient(90deg, 
+            transparent 0%, 
+            rgba(124, 58, 237, 0.15) 25%, 
+            rgba(168, 85, 247, 0.15) 50%,
+            rgba(124, 58, 237, 0.15) 75%,
+            transparent 100%
+        );
+    border: 1px solid rgba(124, 58, 237, 0.2);
+    border-radius: 4px;
+}
+
+/* Project 05 - Momentum App (Landing Page) */
+.project-card-large:nth-child(5) .image-placeholder {
+    background: linear-gradient(180deg, #1A0D2B 0%, #0F0A16 100%);
+}
+
+.project-card-large:nth-child(5) .image-placeholder::after {
+    content: '';
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70%;
+    height: 70%;
+    background: 
+        radial-gradient(ellipse at center, rgba(124, 58, 237, 0.3) 0%, transparent 70%);
+    filter: blur(50px);
+}
+
+/* Project 06 - Wavelength (Brand & Digital) */
+.project-card-large:nth-child(6) .image-placeholder {
+    background: linear-gradient(135deg, #15111D 0%, #1A1028 100%);
+}
+
+.project-card-large:nth-child(6) .image-placeholder::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        transparent 0%,
+        rgba(124, 58, 237, 0.5) 20%,
+        rgba(168, 85, 247, 0.8) 50%,
+        rgba(124, 58, 237, 0.5) 80%,
+        transparent 100%
+    );
+    box-shadow: 0 0 20px rgba(124, 58, 237, 0.5);
+}
+
+/* Project 07 - Nexus Consulting (Business) */
+.project-card-large:nth-child(7) .image-placeholder {
+    background: linear-gradient(135deg, #0F0A16 0%, #15111D 100%);
+}
+
+.project-card-large:nth-child(7) .image-placeholder::after {
+    content: '';
+    position: absolute;
+    top: 20%;
+    left: 20%;
+    right: 20%;
+    bottom: 20%;
+    border: 2px solid rgba(124, 58, 237, 0.3);
+    border-radius: 8px;
+    background: 
+        linear-gradient(135deg, transparent 0%, rgba(124, 58, 237, 0.05) 100%);
+}
+
+/* Project 08 - Summit Conference (Event Landing) */
+.project-card-large:nth-child(8) .image-placeholder {
+    background: linear-gradient(180deg, #1A0D2B 0%, #15111D 50%, #0F0A16 100%);
+}
+
+.project-card-large:nth-child(8) .image-placeholder::after {
+    content: '';
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px;
+    height: 100px;
+    background: 
+        repeating-linear-gradient(
+            90deg,
+            rgba(124, 58, 237, 0.2) 0px,
+            rgba(124, 58, 237, 0.2) 40px,
+            transparent 40px,
+            transparent 80px
+        );
+    border-radius: 4px;
+}
+
+/* ========================================
+   TEMPLATE VISUALS
+   ======================================== */
+
+/* Template cards get similar treatment */
+.template-card:nth-child(odd) .image-placeholder {
+    background: linear-gradient(135deg, #1A0D2B 0%, #0F0A16 100%);
+}
+
+.template-card:nth-child(odd) .image-placeholder::after {
+    content: '';
+    position: absolute;
+    top: 30%;
+    left: 10%;
+    right: 10%;
+    height: 40%;
+    background: 
+        linear-gradient(180deg, 
+            rgba(124, 58, 237, 0.2) 0%,
+            transparent 100%
+        );
+    border: 1px solid rgba(124, 58, 237, 0.3);
+    border-radius: 6px;
+}
+
+.template-card:nth-child(even) .image-placeholder {
+    background: linear-gradient(135deg, #15111D 0%, #1A1028 100%);
+}
+
+.template-card:nth-child(even) .image-placeholder::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    height: 60%;
+    background: 
+        radial-gradient(circle, rgba(168, 85, 247, 0.25) 0%, transparent 70%);
+    filter: blur(40px);
+}
+
+/* ========================================
+   ABOUT PAGE IMAGES
+   ======================================== */
+
+.about-intro-image .image-placeholder {
+    background: linear-gradient(135deg, #1A0D2B 0%, #15111D 100%);
+}
+
+.about-intro-image .image-placeholder::before {
+    background: 
+        radial-gradient(circle at 30% 30%, rgba(124, 58, 237, 0.25) 0%, transparent 60%),
+        radial-gradient(circle at 70% 70%, rgba(168, 85, 247, 0.2) 0%, transparent 60%);
+}
+
+.about-intro-image .image-placeholder::after {
+    content: 'HAVEN';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    color: rgba(124, 58, 237, 0.15);
+    text-align: center;
+}
+
+.about-image .image-placeholder {
+    background: linear-gradient(135deg, #0F0A16 0%, #1A0D2B 100%);
+}
+
+.about-image .image-placeholder::after {
+    content: '';
+    position: absolute;
+    inset: 20%;
+    border: 2px solid rgba(124, 58, 237, 0.3);
+    border-radius: 4px;
+    background: linear-gradient(135deg, transparent 0%, rgba(124, 58, 237, 0.08) 100%);
+}
+
+/* ========================================
+   ANIMATED ACCENTS
+   ======================================== */
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+}
+
+@keyframes pulse-glow {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+/* Add subtle animation to some project visuals */
+.project-card:hover .image-placeholder::after,
+.project-card-large:hover .image-placeholder::after {
+    animation: pulse-glow 3s ease-in-out infinite;
+}
+
+/* ========================================
+   RESPONSIVE ADJUSTMENTS
+   ======================================== */
+
+@media (max-width: 768px) {
+    /* Simplify complex visuals on mobile */
+    .image-placeholder::after {
+        filter: blur(30px) !important;
+    }
+}
+
+/* ========================================
+   ACCESSIBILITY
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    .project-card:hover .image-placeholder::after,
+    .project-card-large:hover .image-placeholder::after {
+        animation: none;
+    }
+}
