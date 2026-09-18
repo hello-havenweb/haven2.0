@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 — Page Not Found — HAVEN</title>
+    <meta name="description" content="The page you're looking for doesn't exist.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    
+    <style>
+        .error-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--color-black) 0%, var(--color-dark-purple) 50%, var(--color-black) 100%);
+            position: relative;
+            overflow: hidden;
+            padding: var(--space-2xl);
+        }
+        
+        .error-page::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(124, 58, 237, 0.2) 0%, transparent 70%);
+            filter: blur(80px);
+            pointer-events: none;
+        }
+        
+        .error-content {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+        }
+        
+        .error-code {
+            font-size: clamp(8rem, 20vw, 16rem);
+            font-weight: 900;
+            line-height: 1;
+            letter-spacing: -0.05em;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: var(--space-lg);
+            text-shadow: 0 0 80px rgba(124, 58, 237, 0.5);
+        }
+        
+        .error-title {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: var(--space-base);
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+        }
+        
+        .error-text {
+            font-size: var(--font-size-xl);
+            color: var(--text-secondary);
+            margin-bottom: var(--space-2xl);
+            line-height: var(--line-height-relaxed);
+        }
+        
+        .error-buttons {
+            display: flex;
+            gap: var(--space-base);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        @media (max-width: 768px) {
+            .error-page {
+                padding: var(--space-xl);
+            }
+            
+            .error-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .error-buttons .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Custom Cursor -->
+    <div class="cursor">
+        <div class="cursor-dot"></div>
+        <div class="cursor-outline">
+            <span class="cursor-text"></span>
+        </div>
+    </div>
+
+    <!-- 404 Error Page -->
+    <main class="error-page">
+        <div class="error-content">
+            <div class="error-code">404</div>
+            <h1 class="error-title">PAGE NOT FOUND</h1>
+            <p class="error-text">
+                The page you're looking for doesn't exist or has been moved.
+            </p>
+            <div class="error-buttons">
+                <a href="index.html" class="btn btn-primary btn-large">RETURN HOME</a>
+                <a href="contact.html" class="btn btn-outline btn-large">CONTACT US</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
+    
+    <!-- Scripts -->
+    <script src="js/cursor.js"></script>
+    
+    <script>
+        // Simple 404 page animation
+        if (typeof gsap !== 'undefined') {
+            const timeline = gsap.timeline({ delay: 0.2 });
+            
+            timeline
+                .fromTo('.error-code', 
+                    { opacity: 0, scale: 0.8, filter: 'blur(20px)' },
+                    { opacity: 1, scale: 1, filter: 'blur(0px)', duration: 1, ease: 'power3.out' }
+                )
+                .fromTo('.error-title',
+                    { opacity: 0, y: 30 },
+                    { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' },
+                    '-=0.4'
+                )
+                .fromTo('.error-text',
+                    { opacity: 0, y: 20 },
+                    { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' },
+                    '-=0.3'
+                )
+                .fromTo('.error-buttons',
+                    { opacity: 0, y: 20 },
+                    { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' },
+                    '-=0.3'
+                );
+        }
+    </script>
+
+</body>
+</html>
