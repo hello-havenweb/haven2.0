@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Preview Image Generator — HAVEN</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #050505;
+            color: #F5F5F5;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #7C3AED;
+        }
+        
+        p {
+            margin-bottom: 2rem;
+            color: #9A9A9A;
+            line-height: 1.6;
+        }
+        
+        .preview-canvas {
+            width: 1200px;
+            height: 630px;
+            background: linear-gradient(135deg, #1A0D2B 0%, #0F0A16 50%, #1A0D2B 100%);
+            border: 2px solid #7C3AED;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .preview-canvas::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(124, 58, 237, 0.3) 0%, transparent 70%);
+            filter: blur(100px);
+        }
+        
+        .preview-content {
+            position: relative;
+            z-index: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 80px;
+        }
+        
+        .preview-logo {
+            font-size: 3rem;
+            font-weight: 900;
+            letter-spacing: 0.3em;
+            color: #F5F5F5;
+            margin-bottom: 1.5rem;
+        }
+        
+        .preview-tagline {
+            font-size: 4rem;
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #7C3AED, #A855F7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1.5rem;
+        }
+        
+        .preview-description {
+            font-size: 1.5rem;
+            color: #C1C1C1;
+            max-width: 700px;
+            line-height: 1.5;
+        }
+        
+        .instructions {
+            background: #0F0A16;
+            border: 1px solid #7C3AED;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .instructions h2 {
+            color: #A855F7;
+            margin-bottom: 1rem;
+        }
+        
+        .instructions ol {
+            margin-left: 1.5rem;
+            color: #C1C1C1;
+            line-height: 1.8;
+        }
+        
+        .instructions code {
+            background: #1A0D2B;
+            color: #A855F7;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        @media (max-width: 1280px) {
+            .preview-canvas {
+                width: 100%;
+                height: auto;
+                aspect-ratio: 1200 / 630;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <h1>HAVEN — Social Preview Image Generator</h1>
+        <p>Use this page to generate the og:image for social media previews (Facebook, LinkedIn, Twitter, etc.)</p>
+        
+        <div class="preview-canvas" id="canvas">
+            <div class="preview-content">
+                <div class="preview-logo">HAVEN</div>
+                <div class="preview-tagline">
+                    YOUR VISION.<br>
+                    OUR CREATION.
+                </div>
+                <div class="preview-description">
+                    Premium web development studio creating modern digital experiences.
+                </div>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <h2>HOW TO CREATE THE IMAGE:</h2>
+            <ol>
+                <li>Take a screenshot of the canvas above at exactly <code>1200×630px</code></li>
+                <li>Save as <code>og-image.jpg</code> or <code>og-image.png</code></li>
+                <li>Place in the root directory of your HAVEN project</li>
+                <li>Add this meta tag to all HTML pages:</li>
+            </ol>
+            <br>
+            <code style="display: block; padding: 1rem; background: #050505; border-radius: 4px;">
+                &lt;meta property="og:image" content="https://haven.pntr.dev/og-image.jpg"&gt;<br>
+                &lt;meta property="og:image:width" content="1200"&gt;<br>
+                &lt;meta property="og:image:height" content="630"&gt;<br>
+                &lt;meta name="twitter:card" content="summary_large_image"&gt;<br>
+                
