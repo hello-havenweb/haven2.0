@@ -1,7 +1,8 @@
-// Custom Cursor Functionality
+// Custom Cursor - HAVEN Premium Digital Agency
+// Sophisticated cursor interactions (desktop only)
 
 function initCursor() {
-    // Only initialize on desktop devices
+    // Only on desktop, not touch devices
     if (window.havenUtils.isTouchDevice() || window.innerWidth < 1024) {
         return;
     }
@@ -18,6 +19,9 @@ function initCursor() {
     let cursorX = 0;
     let cursorY = 0;
     
+    // Smooth cursor following with interpolation
+    const CURSOR_SPEED = 0.18;
+    
     // Update mouse position
     document.addEventListener('mousemove', (e) => {
         mouseX = e.clientX;
@@ -26,10 +30,12 @@ function initCursor() {
     
     // Animate cursor with smooth following effect
     function animateCursor() {
-        // Smooth interpolation for cursor position
-        const speed = 0.15;
-        cursorX += (mouseX - cursorX) * speed;
-        cursorY += (mouseY - cursorY) * speed;
+        // Smooth interpolation
+        const dx = mouseX - cursorX;
+        const dy = mouseY - cursorY;
+        
+        cursorX += dx * CURSOR_SPEED;
+        cursorY += dy * CURSOR_SPEED;
         
         cursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
         
@@ -38,8 +44,11 @@ function initCursor() {
     
     animateCursor();
     
-    // Cursor interactions
-    const interactiveElements = document.querySelectorAll('a, button, .project-card, .template-card, .service-item, .filter-btn, input, textarea, select');
+    // Interactive elements
+    const interactiveElements = document.querySelectorAll(
+        'a, button, .project-card, .template-card, .service-item, .filter-btn, ' +
+        'input, textarea, select, .pricing-card, .nav-logo'
+    );
     
     interactiveElements.forEach(element => {
         element.addEventListener('mouseenter', () => {
@@ -48,10 +57,20 @@ function initCursor() {
             // Check for custom cursor text
             const cursorTextValue = element.dataset.cursorText;
             if (cursorTextValue) {
-                cursor.classList.add('hover');
                 cursor.classList.remove('link');
+                cursor.classList.add('hover');
                 if (cursorText) {
                     cursorText.textContent = cursorTextValue;
+                }
+            }
+            
+            // Special handling for project cards
+            if (element.classList.contains('project-card') || 
+                element.classList.contains('project-card-large')) {
+                cursor.classList.remove('link');
+                cursor.classList.add('hover');
+                if (cursorText) {
+                    cursorText.textContent = 'VIEW';
                 }
             }
         });
@@ -75,15 +94,36 @@ function initCursor() {
     
     // Update cursor on window resize
     window.addEventListener('resize', window.havenUtils.debounce(() => {
-        if (window.innerWidth < 1024) {
+        if (window.innerWidth < 1024 || window.havenUtils.isTouchDevice()) {
             cursor.style.display = 'none';
-        } else if (!window.havenUtils.isTouchDevice()) {
+        } else {
             cursor.style.display = 'block';
         }
     }, 250));
+    
+    // Cursor click effect
+    document.addEventListener('mousedown', () => {
+        if (gsap) {
+            gsap.to(cursorOutline, {
+                scale: 0.85,
+                duration: 0.2,
+                ease: 'power2.out'
+            });
+        }
+    });
+    
+    document.addEventListener('mouseup', () => {
+        if (gsap) {
+            gsap.to(cursorOutline, {
+                scale: 1,
+                duration: 0.3,
+                ease: 'elastic.out(1, 0.5)'
+            });
+        }
+    });
 }
 
-// Remove cursor on touch devices
+// Ensure cursor is hidden on touch devices
 if (window.havenUtils && window.havenUtils.isTouchDevice()) {
     const cursor = document.querySelector('.cursor');
     if (cursor) {
