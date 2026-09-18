@@ -1,0 +1,7 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Purple Background -->
+  <rect width="64" height="64" rx="12" fill="#7C3AED"/>
+  
+  <!-- Letter H -->
+  <path d="M18 16H26V28H38V16H46V48H38V36H26V48H18V16Z" fill="#F5F5F5"/>
+</svg>
