@@ -2,12 +2,12 @@
 
 function initAnimations() {
     if (typeof gsap === 'undefined') {
-        console.warn('GSAP not loaded');
+        console.warn('GSAP not loaded - animations disabled');
         return;
     }
     
     // Check for reduced motion preference
-    if (window.havenUtils.prefersReducedMotion()) {
+    if (window.havenUtils && window.havenUtils.prefersReducedMotion()) {
         // Disable complex animations
         disableAnimations();
         return;
@@ -19,14 +19,19 @@ function initAnimations() {
     // Initialize stagger animations
     initStaggerAnimations();
     
-    // Initialize parallax effects
-    initParallaxEffects();
+    // Initialize parallax effects (desktop only)
+    if (window.innerWidth > 768) {
+        initParallaxEffects();
+    }
     
     // Initialize image reveals
     initImageReveals();
     
     // Initialize hero animations
     initHeroAnimations();
+    
+    // Initialize page header animations
+    initPageHeaderAnimations();
 }
 
 // Disable animations for reduced motion
@@ -38,8 +43,13 @@ function disableAnimations() {
     });
     
     // Remove image reveal overlays
-    document.querySelectorAll('.image-reveal::after').forEach(el => {
-        el.style.display = 'none';
+    const imageReveals = document.querySelectorAll('.image-reveal');
+    imageReveals.forEach(reveal => {
+        if (reveal) {
+            const style = document.createElement('style');
+            style.textContent = '.image-reveal::after { display: none !important; }';
+            document.head.appendChild(style);
+        }
     });
 }
 
@@ -48,6 +58,13 @@ function initRevealAnimations() {
     const revealElements = document.querySelectorAll('[data-reveal]');
     
     revealElements.forEach(element => {
+        // Skip if not supported
+        if (!gsap || !ScrollTrigger) {
+            element.style.opacity = '1';
+            element.style.transform = 'none';
+            return;
+        }
+        
         gsap.fromTo(element,
             {
                 opacity: 0,
@@ -61,7 +78,10 @@ function initRevealAnimations() {
                 scrollTrigger: {
                     trigger: element,
                     start: 'top 85%',
-                    toggleActions: 'play none none none'
+                    toggleActions: 'play none none none',
+                    once: true,
+                    // Prevent animations from breaking on mobile
+                    onEnter: () => element.classList.add('revealed')
                 }
             }
         );
@@ -78,6 +98,15 @@ function initStaggerAnimations() {
         
         if (children.length === 0) return;
         
+        // Fallback for no GSAP
+        if (!gsap || !ScrollTrigger) {
+            children.forEach(child => {
+                child.style.opacity = '1';
+                child.style.transform = 'none';
+            });
+            return;
+        }
+        
         gsap.fromTo(children,
             {
                 opacity: 0,
@@ -92,18 +121,21 @@ function initStaggerAnimations() {
                 scrollTrigger: {
                     trigger: container,
                     start: 'top 80%',
-                    toggleActions: 'play none none none'
+                    toggleActions: 'play none none none',
+                    once: true
                 }
             }
         );
     });
 }
 
-// Parallax effects
+// Parallax effects (desktop only)
 function initParallaxEffects() {
     const parallaxElements = document.querySelectorAll('[data-parallax]');
     
     parallaxElements.forEach(element => {
+        if (!gsap || !ScrollTrigger) return;
+        
         gsap.to(element, {
             yPercent: -20,
             ease: 'none',
@@ -122,7 +154,13 @@ function initImageReveals() {
     const imageReveals = document.querySelectorAll('.image-reveal');
     
     imageReveals.forEach(reveal => {
-        const overlay = reveal.querySelector('::after') || reveal;
+        if (!gsap || !ScrollTrigger) {
+            // Fallback - just show the image
+            const style = document.createElement('style');
+            style.textContent = '.image-reveal::after { display: none; }';
+            document.head.appendChild(style);
+            return;
+        }
         
         gsap.to(reveal, {
             clipPath: 'inset(0 0 0 0)',
@@ -131,19 +169,8 @@ function initImageReveals() {
             scrollTrigger: {
                 trigger: reveal,
                 start: 'top 75%',
-                toggleActions: 'play none none none'
-            }
-        });
-        
-        // Animate the overlay
-        gsap.to(reveal, {
-            '--reveal-progress': '100%',
-            duration: 1.2,
-            ease: 'power3.inOut',
-            scrollTrigger: {
-                trigger: reveal,
-                start: 'top 75%',
-                toggleActions: 'play none none none'
+                toggleActions: 'play none none none',
+                once: true
             }
         });
     });
@@ -154,7 +181,26 @@ function initHeroAnimations() {
     const heroSection = document.querySelector('.hero');
     if (!heroSection) return;
     
-    const timeline = gsap.timeline({ delay: 1.5 });
+    // Fallback if GSAP not available
+    if (!gsap) {
+        // Ensure hero content is visible
+        const heroElements = heroSection.querySelectorAll('.hero-eyebrow, .hero-title-line, .hero-text, .hero-buttons, .hero-scroll');
+        heroElements.forEach(el => {
+            if (el) {
+                el.style.opacity = '1';
+                el.style.transform = 'none';
+            }
+        });
+        return;
+    }
+    
+    const timeline = gsap.timeline({ 
+        delay: 1.5,
+        onStart: () => {
+            // Ensure elements are visible when animation starts
+            document.body.classList.add('hero-animating');
+        }
+    });
     
     // Animate hero eyebrow
     const eyebrow = heroSection.querySelector('.hero-eyebrow');
@@ -211,6 +257,18 @@ function initPageHeaderAnimations() {
     const pageHero = document.querySelector('.page-hero');
     if (!pageHero || document.querySelector('.hero')) return;
     
+    // Fallback if GSAP not available
+    if (!gsap) {
+        const pageElements = pageHero.querySelectorAll('.page-eyebrow, .page-title, .page-subtitle');
+        pageElements.forEach(el => {
+            if (el) {
+                el.style.opacity = '1';
+                el.style.transform = 'none';
+            }
+        });
+        return;
+    }
+    
     const timeline = gsap.timeline({ delay: 1.2 });
     
     const eyebrow = pageHero.querySelector('.page-eyebrow');
@@ -241,111 +299,114 @@ function initPageHeaderAnimations() {
     }
 }
 
-// Call page header animations
-initPageHeaderAnimations();
-
 // Service item hover animations
 const serviceItems = document.querySelectorAll('.service-item');
 serviceItems.forEach(item => {
     const arrow = item.querySelector('.service-arrow');
     
+    if (!gsap || !arrow) return;
+    
     item.addEventListener('mouseenter', () => {
-        if (arrow) {
-            gsap.to(arrow, {
-                x: 10,
-                duration: 0.3,
-                ease: 'power2.out'
-            });
-        }
+        gsap.to(arrow, {
+            x: 10,
+            duration: 0.3,
+            ease: 'power2.out'
+        });
     });
     
     item.addEventListener('mouseleave', () => {
-        if (arrow) {
-            gsap.to(arrow, {
-                x: 0,
+        gsap.to(arrow, {
+            x: 0,
+            duration: 0.3,
+            ease: 'power2.out'
+        });
+    });
+});
+
+// Project card image scale on hover (desktop only)
+if (window.innerWidth > 768) {
+    const projectCards = document.querySelectorAll('.project-card, .project-card-large');
+    projectCards.forEach(card => {
+        const image = card.querySelector('.image-placeholder');
+        
+        if (!image || !gsap) return;
+        
+        card.addEventListener('mouseenter', () => {
+            gsap.to(image, {
+                scale: 1.05,
+                duration: 0.6,
+                ease: 'power2.out'
+            });
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            gsap.to(image, {
+                scale: 1,
+                duration: 0.6,
+                ease: 'power2.out'
+            });
+        });
+    });
+}
+
+// Template card hover animations (desktop only)
+if (window.innerWidth > 768) {
+    const templateCards = document.querySelectorAll('.template-card');
+    templateCards.forEach(card => {
+        const image = card.querySelector('.image-placeholder');
+        
+        if (!image || !gsap) return;
+        
+        card.addEventListener('mouseenter', () => {
+            gsap.to(image, {
+                scale: 1.1,
+                duration: 0.6,
+                ease: 'power2.out'
+            });
+            
+            gsap.to(card, {
+                y: -4,
                 duration: 0.3,
                 ease: 'power2.out'
             });
-        }
-    });
-});
-
-// Project card image scale on hover
-const projectCards = document.querySelectorAll('.project-card, .project-card-large');
-projectCards.forEach(card => {
-    const image = card.querySelector('.image-placeholder');
-    
-    if (!image) return;
-    
-    card.addEventListener('mouseenter', () => {
-        gsap.to(image, {
-            scale: 1.05,
-            duration: 0.6,
-            ease: 'power2.out'
-        });
-    });
-    
-    card.addEventListener('mouseleave', () => {
-        gsap.to(image, {
-            scale: 1,
-            duration: 0.6,
-            ease: 'power2.out'
-        });
-    });
-});
-
-// Template card hover animations
-const templateCards = document.querySelectorAll('.template-card');
-templateCards.forEach(card => {
-    const image = card.querySelector('.image-placeholder');
-    
-    if (!image) return;
-    
-    card.addEventListener('mouseenter', () => {
-        gsap.to(image, {
-            scale: 1.1,
-            duration: 0.6,
-            ease: 'power2.out'
         });
         
-        gsap.to(card, {
-            y: -4,
-            duration: 0.3,
-            ease: 'power2.out'
+        card.addEventListener('mouseleave', () => {
+            gsap.to(image, {
+                scale: 1,
+                duration: 0.6,
+                ease: 'power2.out'
+            });
+            
+            gsap.to(card, {
+                y: 0,
+                duration: 0.3,
+                ease: 'power2.out'
+            });
         });
     });
-    
-    card.addEventListener('mouseleave', () => {
-        gsap.to(image, {
-            scale: 1,
-            duration: 0.6,
-            ease: 'power2.out'
+}
+
+// Pricing card hover animations (desktop only)
+if (window.innerWidth > 768) {
+    const pricingCards = document.querySelectorAll('.pricing-card');
+    pricingCards.forEach(card => {
+        if (!gsap) return;
+        
+        card.addEventListener('mouseenter', () => {
+            gsap.to(card, {
+                y: -8,
+                duration: 0.3,
+                ease: 'power2.out'
+            });
         });
         
-        gsap.to(card, {
-            y: 0,
-            duration: 0.3,
-            ease: 'power2.out'
+        card.addEventListener('mouseleave', () => {
+            gsap.to(card, {
+                y: 0,
+                duration: 0.3,
+                ease: 'power2.out'
+            });
         });
     });
-});
-
-// Pricing card hover animations
-const pricingCards = document.querySelectorAll('.pricing-card');
-pricingCards.forEach(card => {
-    card.addEventListener('mouseenter', () => {
-        gsap.to(card, {
-            y: -8,
-            duration: 0.3,
-            ease: 'power2.out'
-        });
-    });
-    
-    card.addEventListener('mouseleave', () => {
-        gsap.to(card, {
-            y: 0,
-            duration: 0.3,
-            ease: 'power2.out'
-        });
-    });
-});
+}
