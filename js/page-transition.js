@@ -1,8 +1,14 @@
-// Page Transition Functionality
+// Page Transition Functionality - HAVEN Premium Digital Agency
+// Smooth page transitions without breaking navigation
 
 function initPageTransitions() {
     // Check for reduced motion preference
-    if (window.havenUtils.prefersReducedMotion()) {
+    if (window.havenUtils && window.havenUtils.prefersReducedMotion()) {
+        return;
+    }
+    
+    // Only on desktop for better performance
+    if (window.innerWidth <= 1024) {
         return;
     }
     
@@ -19,10 +25,11 @@ function initPageTransitions() {
     const internalLinks = document.querySelectorAll('a[href^="./"], a[href^="../"], a[href^="/"], a[href^="' + window.location.origin + '"]');
     
     internalLinks.forEach(link => {
-        // Skip anchor links and external links
+        // Skip certain links
         if (link.getAttribute('href').startsWith('#') || 
             link.getAttribute('target') === '_blank' ||
-            link.hasAttribute('download')) {
+            link.hasAttribute('download') ||
+            link.classList.contains('nav-logo')) {
             return;
         }
         
@@ -44,6 +51,8 @@ function initPageTransitions() {
 
 // Check if link points to the same page
 function isSamePage(href) {
+    if (!href) return true;
+    
     const currentPath = window.location.pathname;
     const linkPath = new URL(href, window.location.origin).pathname;
     
@@ -52,6 +61,12 @@ function isSamePage(href) {
 
 // Transition to new page
 function transitionToPage(url, overlay) {
+    if (typeof gsap === 'undefined') {
+        // Fallback without GSAP
+        window.location.href = url;
+        return;
+    }
+    
     // Animate overlay in
     gsap.to(overlay, {
         opacity: 1,
@@ -69,21 +84,26 @@ function transitionToPage(url, overlay) {
 
 // Fade in page on load
 window.addEventListener('load', () => {
-    if (window.havenUtils.prefersReducedMotion()) {
+    if (window.havenUtils && window.havenUtils.prefersReducedMotion()) {
         return;
     }
     
     const transitionOverlay = document.querySelector('.page-transition');
     
     if (transitionOverlay && transitionOverlay.classList.contains('active')) {
-        gsap.to(transitionOverlay, {
-            opacity: 0,
-            duration: 0.4,
-            ease: 'power2.inOut',
-            onComplete: () => {
-                transitionOverlay.classList.remove('active');
-            }
-        });
+        if (typeof gsap !== 'undefined') {
+            gsap.to(transitionOverlay, {
+                opacity: 0,
+                duration: 0.4,
+                ease: 'power2.inOut',
+                onComplete: () => {
+                    transitionOverlay.classList.remove('active');
+                }
+            });
+        } else {
+            transitionOverlay.classList.remove('active');
+            transitionOverlay.style.opacity = '0';
+        }
     }
 });
 
@@ -107,11 +127,15 @@ window.addEventListener('pageshow', (event) => {
 
 // Smooth entry animation for page content
 function initPageEntry() {
-    if (window.havenUtils.prefersReducedMotion()) {
+    if (window.havenUtils && window.havenUtils.prefersReducedMotion()) {
         return;
     }
     
-    const pageContent = document.querySelector('body');
+    if (typeof gsap === 'undefined') {
+        return;
+    }
+    
+    const pageContent = document.querySelector('main, body > section:first-of-type');
     
     if (pageContent) {
         gsap.fromTo(pageContent,
@@ -145,6 +169,8 @@ function initLinkPrefetch() {
 
 // Prefetch a page
 function prefetchPage(url) {
+    if (!url) return;
+    
     const link = document.createElement('link');
     link.rel = 'prefetch';
     link.href = url;
@@ -160,13 +186,18 @@ window.addEventListener('error', (e) => {
     
     if (transitionOverlay && transitionOverlay.classList.contains('active')) {
         // Reset transition overlay on error
-        gsap.to(transitionOverlay, {
-            opacity: 0,
-            duration: 0.3,
-            onComplete: () => {
-                transitionOverlay.classList.remove('active');
-            }
-        });
+        if (typeof gsap !== 'undefined') {
+            gsap.to(transitionOverlay, {
+                opacity: 0,
+                duration: 0.3,
+                onComplete: () => {
+                    transitionOverlay.classList.remove('active');
+                }
+            });
+        } else {
+            transitionOverlay.classList.remove('active');
+            transitionOverlay.style.opacity = '0';
+        }
     }
 }, true);
 
